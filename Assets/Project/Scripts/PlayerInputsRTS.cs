@@ -17,13 +17,13 @@ namespace Project
 			var position = value.Get<Vector2>();
 			if (position == Vector2.zero) return;
 			mousePosition = position;
-			Debug.Log($"MoveRTS {mousePosition}");
+			//Debug.Log($"MoveRTS {mousePosition}");
 			OnMoveRTSPerformed?.Invoke(mousePosition);
 		}
 
 		public void OnInteract(InputValue value)
 		{
-			Debug.Log($"interact {value.isPressed}");
+			//Debug.Log($"interact {value.isPressed}");
 			interact = value.isPressed;
 			OnInteractPerformed?.Invoke();
 		}
