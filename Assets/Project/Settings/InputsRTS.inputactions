@@ -59,6 +59,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InteractRTS",
+                    "type": "Button",
+                    "id": "6bf3f981-e0f4-4a47-8242-5ecae7b04c0f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -292,6 +301,39 @@
                     "action": "MoveRTS",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "b89e57de-e348-4862-a149-126ade8c0ea3",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractRTS",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "c0e3b411-8d88-4d9f-a84a-acf3f119d392",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "InteractRTS",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "2333921f-08c8-4327-a1d2-99771a2c308f",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "InteractRTS",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

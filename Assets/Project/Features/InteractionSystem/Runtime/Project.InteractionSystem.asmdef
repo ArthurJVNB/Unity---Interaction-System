@@ -3,7 +3,8 @@
     "rootNamespace": "Project.InteractionSystem",
     "references": [
         "GUID:76e2adbeb6e2d98429a868b406302648",
-        "GUID:810f54f43f696374fb3b49d45b461274"
+        "GUID:810f54f43f696374fb3b49d45b461274",
+        "GUID:7f7d1af65c2641843945d409d28f2e20"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

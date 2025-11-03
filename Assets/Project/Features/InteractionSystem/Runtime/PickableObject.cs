@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace Project.InteractionSystem
@@ -8,6 +9,10 @@ namespace Project.InteractionSystem
 	{
 		[SerializeField] private SlotType _slotType;
 		[SerializeField] private PickState _state;
+		[SerializeField] private bool _canInteract = true;
+		[Min(0)]
+		[SerializeField] private float _interactionDistance = .5f;
+
 		[field: Space]
 		[field: SerializeField] public UnityEvent OnInteract { get; private set; }
 		[field: SerializeField] public UnityEvent OnPick { get; private set; }
@@ -17,11 +22,37 @@ namespace Project.InteractionSystem
 
 		public SlotType PickType => _slotType;
 
-		public void Interact(GameObject whoIsInteracting)
+		public bool IsInteractionEnabled => _canInteract;
+
+		public bool CanInteract(GameObject whoWantsToInteract)
 		{
-			Debug.Log($"interact {name}");
+			if (!IsInteractionEnabled) return false;
+			return Vector3.Distance(whoWantsToInteract.transform.position, transform.position) <= _interactionDistance;
+		}
+
+		public Vector3? GetInteractionPosition(GameObject whoWantsToInteract)
+		{
+			//var agent = whoWantsToInteract.GetComponent<NavMeshAgent>();
+			//bool hasPath = agent.SamplePathPosition(0, _interactionDistance, out NavMeshHit hit);
+			//bool hasPath = NavMesh.FindClosestEdge(transform.position, out NavMeshHit hit, 0);
+			//return hasPath ? hit.position : null;
+
+			if (!IsInteractionEnabled) return null;
+			return transform.position;
+		}
+
+		public bool Interact(GameObject whoIsInteracting)
+		{
+			if (!CanInteract(whoIsInteracting))
+			{
+				Debug.Log($"'{whoIsInteracting.name}' cannot interact '{name}'!", this);
+				return false;
+			}
+
+			Debug.Log($"interact '{name}'");
 			OnInteract?.Invoke();
 			Pick(whoIsInteracting);
+			return true;
 		}
 
 		public void Pick(GameObject whoIsPicking)
