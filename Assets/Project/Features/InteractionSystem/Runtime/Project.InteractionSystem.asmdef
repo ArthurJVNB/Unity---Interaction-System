@@ -1,0 +1,17 @@
+{
+    "name": "Project.InteractionSystem",
+    "rootNamespace": "Project.InteractionSystem",
+    "references": [
+        "GUID:76e2adbeb6e2d98429a868b406302648",
+        "GUID:810f54f43f696374fb3b49d45b461274"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
