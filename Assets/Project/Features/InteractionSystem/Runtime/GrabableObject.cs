@@ -45,33 +45,48 @@ namespace Project.InteractionSystem
 
 			Debug.Log($"interact '{name}'");
 			OnInteract?.Invoke();
-			GrabOrDrop(whoIsInteracting);
-			return true;
+			return GrabOrDrop(whoIsInteracting);
 		}
 
-		private void GrabOrDrop(GameObject whoIsInteracting)
+		private bool GrabOrDrop(GameObject whoIsInteracting)
 		{
-			if (!whoIsInteracting) return;
+			if (!whoIsInteracting) return false;
 
 			if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsInteracting)
 				DropFromOwner();
 
 			bool shouldGrab = _owner != whoIsInteracting;
-			if (shouldGrab) Grab(whoIsInteracting);
-			else Drop();
+			if (shouldGrab)
+				return Grab(whoIsInteracting);
+			else
+			{
+				Drop();
+				return true;
+			}
 		}
 
-		public void Grab(GameObject whoIsGrabbing)
+		public bool Grab(GameObject whoIsGrabbing)
 		{
 			Debug.Log($"Grab {name} ({(_socketData ? _socketData.Name : "none")})");
 
+			bool couldGrab;
 			if (whoIsGrabbing.TryGetComponent(out SocketManager socketManager))
-				socketManager.AssignObject(gameObject, _socketData);
+				couldGrab = socketManager.AssignObject(gameObject, _socketData);
 			else
+			{
 				transform.SetParent(whoIsGrabbing.transform, true);
+				couldGrab = true;
+			}
+
+			if (!couldGrab)
+			{
+				Debug.Log($"Could not grab '{name}'");
+				return false;
+			}
 
 			_owner = whoIsGrabbing;
 			OnGrab?.Invoke();
+			return true;
 
 			#region Backup
 			//if (!whoIsGrabbing) return;

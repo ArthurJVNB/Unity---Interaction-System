@@ -49,7 +49,7 @@ namespace Project.InteractionSystem
 		/// <param name="gameObject">GameObject to be assigned to a Socket.</param>
 		/// <param name="socketData">Socket type to assign to. If null, it will be considered as "World",
 		/// and will be assigned as a child of the Transform of this Socket Manager.</param>
-		public void AssignObject(GameObject gameObject, SocketData socketData = null)
+		public bool AssignObject(GameObject gameObject, SocketData socketData = null)
 		{
 			var socket = GetSocket(socketData);
 
@@ -64,10 +64,11 @@ namespace Project.InteractionSystem
 			if (!couldAssign)
 			{
 				Debug.Log($"Socket '{(socket ? socket.Data.Name : "World")}' was already full");
-				return;
+				return false;
 			}
 
 			_assignedGameObjects.Add(gameObject, socket);
+			return true;
 		}
 
 		public void DropObject(GameObject gameObject)

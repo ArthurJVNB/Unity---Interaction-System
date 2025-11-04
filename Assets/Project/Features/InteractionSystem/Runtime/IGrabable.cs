@@ -7,7 +7,7 @@ namespace Project.InteractionSystem
 	{
 		public UnityEvent OnGrab { get; }
 		public UnityEvent OnDrop { get; }
-		public void Grab(GameObject whoIsGrabbing);
+		public bool Grab(GameObject whoIsGrabbing);
 		public void Drop();
 	}
 }
