@@ -3,10 +3,10 @@ using UnityEngine.Events;
 
 namespace Project.InteractionSystem
 {
-	public interface IPickable
+	public interface IGrabable
 	{
-		public SlotType PickType { get; }
-		public UnityEvent OnPick { get; }
+		public SocketData SocketType { get; }
+		public UnityEvent OnGrab { get; }
 		public UnityEvent OnDrop { get; }
 		public void Pick(GameObject whoIsPicking);
 	}

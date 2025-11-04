@@ -516,6 +516,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 217066381}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 217066386}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 217066387}
   m_SourcePrefab: {fileID: 100100000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
 --- !u!4 &217066377 stripped
 Transform:
@@ -662,6 +670,72 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6219392, y: 0.62193924, z: 0.62193924}
   m_Center: {x: 1.2632881e-10, y: 0.000000004470348, z: 0.29999986}
+--- !u!114 &217066386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217066378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c52969769c038f4393423cf7ba55efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _socketType: {fileID: 0}
+  _owner: {fileID: 0}
+  _state: 0
+  _canInteract: 1
+  _interactionDistance: 2.01
+  _canBePickedIfOwner: 0
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnGrab>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDrop>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 217066387}
+        m_TargetAssemblyTypeName: Project.InteractionSystem.StayOnSurface, Project.InteractionSystem
+        m_MethodName: PutOnGround
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &217066387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217066378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9def21af416dc0b45a09a60aa1a44a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transform: {fileID: 217066377}
+  _distanceCheckGround: 1
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  _position:
+    useX: 0
+    useY: 0
+    useZ: 0
+    value: {x: 0, y: 0, z: 0}
+  _rotation:
+    useX: 0
+    useY: 0
+    useZ: 0
+    value: {x: 0, y: 0, z: 0}
 --- !u!1001 &221474733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1847,6 +1921,7 @@ GameObject:
   m_Component:
   - component: {fileID: 574981424}
   - component: {fileID: 574981425}
+  - component: {fileID: 574981426}
   m_Layer: 0
   m_Name: RigLayer_LeftHand
   m_TagString: Untagged
@@ -1921,6 +1996,21 @@ MonoBehaviour:
       z: 1
     m_MaintainPositionOffset: 0
     m_MaintainRotationOffset: 0
+--- !u!114 &574981426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574981423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2044c507c671ddb41835e7313eab0960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _socketData: {fileID: 11400000, guid: a305898f27e72a547b4ca02a04b853d9, type: 2}
+  _constraint: {fileID: 574981425}
+  _objectLimit: 1
 --- !u!4 &584436005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6668654437293982308, guid: 64dce48905ffd9b4293e595fa6941544,
@@ -3051,14 +3141,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c52969769c038f4393423cf7ba55efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotType: 0
+  _socketType: {fileID: 0}
+  _owner: {fileID: 0}
   _state: 0
   _canInteract: 1
   _interactionDistance: 1
+  _canBePickedIfOwner: 0
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
-  <OnPick>k__BackingField:
+  <OnGrab>k__BackingField:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 853064666}
@@ -4114,7 +4206,7 @@ GameObject:
   - component: {fileID: 1129315385}
   - component: {fileID: 1129315386}
   m_Layer: 0
-  m_Name: RigLayers
+  m_Name: Sockets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4135,6 +4227,7 @@ Transform:
   m_Children:
   - {fileID: 1285158722}
   - {fileID: 574981424}
+  - {fileID: 1446051384}
   m_Father: {fileID: 1219537872}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1129315386
@@ -4423,11 +4516,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1219537871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d958e156afd4e714e901952d640f8eb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9167f19e4180132489654a663c3e9a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _primaryHand: {fileID: 0}
-  _secondaryHand: {fileID: 0}
+  _sockets:
+  - {fileID: 1285158724}
+  - {fileID: 574981426}
+  _worldSocket: {fileID: 1446051384}
+  _worldObjectsLimit: 1
+  _worldObjectsSnaps: 1
 --- !u!1001 &1221041499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4752,6 +4849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285158722}
   - component: {fileID: 1285158723}
+  - component: {fileID: 1285158724}
   m_Layer: 0
   m_Name: RigLayer_RightHand
   m_TagString: Untagged
@@ -4826,6 +4924,21 @@ MonoBehaviour:
       z: 1
     m_MaintainPositionOffset: 0
     m_MaintainRotationOffset: 0
+--- !u!114 &1285158724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285158721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2044c507c671ddb41835e7313eab0960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _socketData: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
+  _constraint: {fileID: 1285158723}
+  _objectLimit: 1
 --- !u!1 &1298363808 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8,
@@ -5092,6 +5205,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 224400190}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1446051383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446051384}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1446051384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446051383}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1129315385}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1447361255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6668654437293982308, guid: 64dce48905ffd9b4293e595fa6941544,

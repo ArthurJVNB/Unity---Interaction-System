@@ -1,6 +1,6 @@
 namespace Project.InteractionSystem
 {
-	public enum SlotType
+	public enum SocketType
 	{
 		World,
 		PrimaryHand,
