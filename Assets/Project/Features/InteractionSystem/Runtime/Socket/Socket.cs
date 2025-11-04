@@ -47,7 +47,7 @@ namespace Project.InteractionSystem
 			if (couldAssign)
 			{
 				gameObject.transform.SetParent(Root, true);
-				gameObject.transform.localPosition = Vector3.zero;
+				gameObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 			}
 
 			return couldAssign;

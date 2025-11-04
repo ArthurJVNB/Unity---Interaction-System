@@ -87,41 +87,6 @@ namespace Project.InteractionSystem
 			_owner = whoIsGrabbing;
 			OnGrab?.Invoke();
 			return true;
-
-			#region Backup
-			//if (!whoIsGrabbing) return;
-
-			//if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsGrabbing)
-			//	DropFromOwner();
-
-			//bool shouldGrab = _owner != whoIsGrabbing;
-
-			//if (whoIsGrabbing.TryGetComponent(out SocketManager socketManager))
-			//{
-			//	if (shouldGrab)
-			//		socketManager.AssignObject(gameObject, _socketData);
-			//	else
-			//		socketManager.DropObject(gameObject);
-			//}
-			//else
-			//{
-			//	if (shouldGrab)
-			//		transform.SetParent(whoIsGrabbing.transform, true);
-			//	else
-			//		transform.SetParent(null, true);
-			//}
-
-			//if (shouldGrab)
-			//{
-			//	_owner = whoIsGrabbing;
-			//	OnGrab?.Invoke();
-			//}
-			//else
-			//{
-			//	_owner = null;
-			//	OnDrop?.Invoke();
-			//}
-			#endregion
 		}
 
 		public void Drop()
