@@ -88,7 +88,7 @@ namespace Project.InteractionSystem
 			if (_sockets == null || _sockets.Length == 0)
 				return null;
 
-			return _sockets.FirstOrDefault(v => v == socketData);
+			return _sockets.FirstOrDefault(v => v.Data == socketData);
 		}
 
 		private bool AssignObjectWorld(GameObject gameObject)

@@ -9,7 +9,6 @@ namespace Project.InteractionSystem
 	{
 		[SerializeField] private SocketData _socketType;
 		[SerializeField] private GameObject _owner;
-		[SerializeField] private PickStateObsolete _state; // DELETAR!
 		[SerializeField] private bool _canInteract = true;
 		[Min(0)]
 		[SerializeField] private float _interactionDistance = .5f;
@@ -20,8 +19,6 @@ namespace Project.InteractionSystem
 		[field: SerializeField] public UnityEvent OnInteract { get; private set; }
 		[field: SerializeField] public UnityEvent OnGrab { get; private set; }
 		[field: SerializeField] public UnityEvent OnDrop { get; private set; }
-
-		private enum PickStateObsolete { None, Picked }
 
 		public SocketData SocketType => _socketType;
 
@@ -35,11 +32,6 @@ namespace Project.InteractionSystem
 
 		public Vector3? GetInteractionPosition(GameObject whoWantsToInteract)
 		{
-			//var agent = whoWantsToInteract.GetComponent<NavMeshAgent>();
-			//bool hasPath = agent.SamplePathPosition(0, _interactionDistance, out NavMeshHit hit);
-			//bool hasPath = NavMesh.FindClosestEdge(transform.position, out NavMeshHit hit, 0);
-			//return hasPath ? hit.position : null;
-
 			if (!IsInteractionEnabled) return null;
 			return transform.position;
 		}
@@ -54,79 +46,39 @@ namespace Project.InteractionSystem
 
 			Debug.Log($"interact '{name}'");
 			OnInteract?.Invoke();
-			Pick(whoIsInteracting);
+			Grab(whoIsInteracting);
 			return true;
 		}
 
-		public void Pick(GameObject whoIsPicking)
+		public void Grab(GameObject whoIsGrabbing)
 		{
-			Debug.Log($"pick {name} ({(_socketType ? _socketType.Name : "none")})");
-			#region Backup
-			//SwitchState();
+			Debug.Log($"Grab {name} ({(_socketType ? _socketType.Name : "none")})");
 
-			//if (!whoIsPicking) return;
+			if (!whoIsGrabbing) return;
 
-			//if (whoIsPicking.TryGetComponent(out SocketManager socketManager))
-			//{
-			//	switch (_state)
-			//	{
-			//		case PickStateObsolete.None:
-			//			OnDrop?.Invoke();
-			//			//pickSlotManager.DropObjectObsolete(gameObject);
-			//			socketManager.DropObject(gameObject);
-			//			break;
-			//		case PickStateObsolete.Picked:
-			//			OnPick?.Invoke();
-			//			//pickSlotManager.AssignObject(gameObject, _slotType);
-			//			socketManager.AssignObject(gameObject, _socketType);
-			//			break;
-			//		default:
-			//			break;
-			//	}
-			//}
-			//else
-			//{
-			//	switch (_state)
-			//	{
-			//		case PickStateObsolete.None:
-			//			OnDrop?.Invoke();
-			//			transform.SetParent(null, true);
-			//			break;
-			//		case PickStateObsolete.Picked:
-			//			OnPick?.Invoke();
-			//			transform.SetParent(whoIsPicking.transform, true);
-			//			break;
-			//		default:
-			//			break;
-			//	}
-			//}
-			#endregion
-
-			if (!whoIsPicking) return;
-
-			if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsPicking)
+			if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsGrabbing)
 				DropFromOwner();
 
-			bool isGrabbing = _owner != whoIsPicking;
+			bool shouldGrab = _owner != whoIsGrabbing;
 
-			if (whoIsPicking.TryGetComponent(out SocketManager socketManager))
+			if (whoIsGrabbing.TryGetComponent(out SocketManager socketManager))
 			{
-				if (isGrabbing)
+				if (shouldGrab)
 					socketManager.AssignObject(gameObject, _socketType);
 				else
 					socketManager.DropObject(gameObject);
 			}
 			else
 			{
-				if (isGrabbing)
-					transform.SetParent(whoIsPicking.transform, true);
+				if (shouldGrab)
+					transform.SetParent(whoIsGrabbing.transform, true);
 				else
 					transform.SetParent(null, true);
 			}
 
-			if (isGrabbing)
+			if (shouldGrab)
 			{
-				_owner = whoIsPicking;
+				_owner = whoIsGrabbing;
 				OnGrab?.Invoke();
 			}
 			else
@@ -145,22 +97,6 @@ namespace Project.InteractionSystem
 				return;
 			}
 			transform.SetParent(null, true);
-		}
-
-		private void SwitchState()
-		{
-			switch (_state)
-			{
-				case PickStateObsolete.None:
-					_state = PickStateObsolete.Picked;
-					break;
-				case PickStateObsolete.Picked:
-					_state = PickStateObsolete.None;
-					break;
-				default:
-					Debug.LogError("Current pick state is invalid!", this);
-					break;
-			}
 		}
 
 	}

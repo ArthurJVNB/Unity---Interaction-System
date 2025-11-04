@@ -8,6 +8,8 @@ namespace Project.InteractionSystem
 		[SerializeField] private Transform _transform;
 		[SerializeField] private float _distanceCheckGround = 1;
 		[SerializeField] private LayerMask _groundLayer = 1 << 0; // Default
+		[SerializeField] private Vector3 _checkGroundOffset = Vector3.up;
+		[SerializeField] private Vector3 _checkGroundDirection = Vector3.down;
 		[SerializeField] private Settings _position;
 		[SerializeField] private Settings _rotation;
 
@@ -41,7 +43,10 @@ namespace Project.InteractionSystem
 
 		private void ApplyPosition(Settings settings)
 		{
-			Ray ray = new(Transform.position + Vector3.up, Vector3.down);
+			Ray ray = new(Transform.position + _checkGroundOffset, _checkGroundDirection);
+#if UNITY_EDITOR
+			Debug.DrawRay(ray.origin, ray.direction * _distanceCheckGround, Color.red, 5, true);
+#endif
 			var hits = Physics.RaycastAll(ray, _distanceCheckGround, _groundLayer);
 			foreach (var hit in hits)
 			{
@@ -62,6 +67,12 @@ namespace Project.InteractionSystem
 				settings.useX ? settings.value.x : currentEuler.x,
 				settings.useY ? settings.value.y : currentEuler.y,
 				settings.useZ ? settings.value.z : currentEuler.z);
+		}
+
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine(transform.position + _checkGroundOffset, transform.position + _checkGroundDirection.normalized * _distanceCheckGround);
 		}
 	}
 }

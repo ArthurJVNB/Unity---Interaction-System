@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
@@ -504,6 +508,10 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 217066388}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,
         type: 3}
       insertIndex: -1
@@ -682,25 +690,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c52969769c038f4393423cf7ba55efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _socketType: {fileID: 0}
+  _socketType: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
   _owner: {fileID: 0}
-  _state: 0
   _canInteract: 1
-  _interactionDistance: 2.01
-  _canBePickedIfOwner: 0
+  _interactionDistance: 2
+  _canBeGrabbedEvenWithOwner: 0
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
   <OnGrab>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 217066382}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 217066388}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   <OnDrop>k__BackingField:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 217066382}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 217066387}
         m_TargetAssemblyTypeName: Project.InteractionSystem.StayOnSurface, Project.InteractionSystem
         m_MethodName: PutOnGround
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 217066388}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -722,20 +777,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 217066377}
-  _distanceCheckGround: 1
+  _distanceCheckGround: 3
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
+  _checkGroundOffset: {x: 0, y: 1, z: 0}
+  _checkGroundDirection: {x: 0, y: -1, z: 0}
   _position:
     useX: 0
-    useY: 0
+    useY: 1
     useZ: 0
     value: {x: 0, y: 0, z: 0}
   _rotation:
-    useX: 0
+    useX: 1
     useY: 0
     useZ: 0
-    value: {x: 0, y: 0, z: 0}
+    value: {x: -90, y: 0, z: 0}
+--- !u!54 &217066388
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217066378}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &221474733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2009,7 +2093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _socketData: {fileID: 11400000, guid: a305898f27e72a547b4ca02a04b853d9, type: 2}
-  _constraint: {fileID: 574981425}
+  _root: {fileID: 0}
   _objectLimit: 1
 --- !u!4 &584436005 stripped
 Transform:
@@ -2907,6 +2991,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
@@ -3143,10 +3231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _socketType: {fileID: 0}
   _owner: {fileID: 0}
-  _state: 0
   _canInteract: 1
   _interactionDistance: 1
-  _canBePickedIfOwner: 0
+  _canBeGrabbedEvenWithOwner: 0
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -3205,10 +3292,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 853064661}
-  _distanceCheckGround: 1
+  _distanceCheckGround: 3
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
+  _checkGroundOffset: {x: 0, y: 1, z: 0}
+  _checkGroundDirection: {x: 0, y: -1, z: 0}
   _position:
     useX: 0
     useY: 1
@@ -3630,7 +3719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &990456036
 Transform:
   m_ObjectHideFlags: 0
@@ -4483,7 +4572,7 @@ MonoBehaviour:
   _agent: {fileID: 1219537877}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
   _inputMove: {fileID: 2775621634073033809, guid: 08a8924737421e14a908f28e441fd041,
     type: 3}
   _inputInteract: {fileID: -4645680994062395525, guid: 08a8924737421e14a908f28e441fd041,
@@ -4937,7 +5026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _socketData: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
-  _constraint: {fileID: 1285158723}
+  _root: {fileID: 0}
   _objectLimit: 1
 --- !u!1 &1298363808 stripped
 GameObject:
@@ -4969,7 +5058,7 @@ MonoBehaviour:
   m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_MinimumDistanceFromTarget: 0.1
   m_AvoidObstacles: 1
   m_DistanceLimit: 0
@@ -5230,7 +5319,7 @@ Transform:
   m_GameObject: {fileID: 1446051383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5769,7 +5858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1707727466
 Transform:
   m_ObjectHideFlags: 0

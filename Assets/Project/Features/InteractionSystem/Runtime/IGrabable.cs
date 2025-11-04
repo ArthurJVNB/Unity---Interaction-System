@@ -8,6 +8,6 @@ namespace Project.InteractionSystem
 		public SocketData SocketType { get; }
 		public UnityEvent OnGrab { get; }
 		public UnityEvent OnDrop { get; }
-		public void Pick(GameObject whoIsPicking);
+		public void Grab(GameObject whoIsGrabbing);
 	}
 }
