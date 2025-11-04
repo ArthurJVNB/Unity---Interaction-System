@@ -532,6 +532,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 217066387}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 217066389}
   m_SourcePrefab: {fileID: 100100000, guid: 405367ed9f945394ab551035649c5ba3, type: 3}
 --- !u!4 &217066377 stripped
 Transform:
@@ -690,7 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c52969769c038f4393423cf7ba55efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _socketType: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
+  _socketData: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
   _owner: {fileID: 0}
   _canInteract: 1
   _interactionDistance: 2
@@ -725,6 +729,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 217066389}
+        m_TargetAssemblyTypeName: Project.InteractionSystem.KeyObject, Project.InteractionSystem
+        m_MethodName: RemoveOwner
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   <OnDrop>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -751,7 +767,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 217066388}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
         m_MethodName: set_isKinematic
@@ -820,6 +836,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &217066389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217066378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2400af0317dea44af72e4d266b7531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: {fileID: 11400000, guid: e1d4e76381b56094ca57a04addcee8a1, type: 2}
+  _owner: {fileID: 0}
+  <OnPlaceKey>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 217066388}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  <OnRemoveKey>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &221474733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3230,7 +3278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c52969769c038f4393423cf7ba55efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _socketType: {fileID: 0}
+  _socketData: {fileID: 0}
   _owner: {fileID: 0}
   _canInteract: 1
   _interactionDistance: 1
@@ -3821,7 +3869,7 @@ GameObject:
   - component: {fileID: 996026089}
   - component: {fileID: 996026088}
   m_Layer: 0
-  m_Name: PlaceableSocket_Item1
+  m_Name: KeyReceiver_Item1
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3839,7 +3887,8 @@ Transform:
   m_LocalPosition: {x: 9.6, y: 1.2, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 1980428443}
   m_Father: {fileID: 1237326940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &996026088
@@ -3854,8 +3903,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04791cdfcbe762438ed21ad971d1cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _socketKey: {fileID: 11400000, guid: de79577c70e3a3f46a91d31e4c44285c, type: 2}
-  _type: 1
+  _key: {fileID: 11400000, guid: e1d4e76381b56094ca57a04addcee8a1, type: 2}
+  _keyPosition: {fileID: 1980428443}
+  _canInteract: 1
+  _interactionDistance: 2
+  _currentKey: {fileID: 0}
+  <OnInteract>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnPlaceKey>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnRemoveKey>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &996026089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4659,7 +4720,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1.75
+  m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 240
@@ -4882,7 +4943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1237326940}
   m_Layer: 0
-  m_Name: Placeable Sockets
+  m_Name: KeyReceivers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6724,6 +6785,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1035229804}
   m_SourcePrefab: {fileID: 100100000, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+--- !u!1 &1980428442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980428443}
+  m_Layer: 0
+  m_Name: KeyPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1980428443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980428442}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.70710576, y: -0, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 996026087}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1993594441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 405367ed9f945394ab551035649c5ba3,

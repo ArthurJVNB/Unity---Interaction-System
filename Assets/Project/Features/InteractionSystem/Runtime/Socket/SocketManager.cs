@@ -12,8 +12,15 @@ namespace Project.InteractionSystem
 		[SerializeField, Min(0)] private int _worldObjectsLimit = 1;
 		[SerializeField] private bool _worldObjectsSnaps;
 
-		private Dictionary<GameObject, SocketType> _assignedGameObjectsObsolete;
 		private Dictionary<GameObject, Socket> _assignedGameObjects;
+
+		public GameObject[] AssignedGameObjects
+		{
+			get
+			{
+				return _assignedGameObjects?.Keys.ToArray();
+			}
+		}
 
 		private Transform WorldSocket
 		{
@@ -70,7 +77,7 @@ namespace Project.InteractionSystem
 
 			if (!exists)
 			{
-				Debug.LogWarning($"'{gameObject.name}' was not assigned to the manager", this);
+				//Debug.LogWarning($"'{gameObject.name}' was not assigned to the manager", this);
 				return;
 			}
 
@@ -81,6 +88,8 @@ namespace Project.InteractionSystem
 			}
 
 			socket.DropObject(gameObject);
+			if (gameObject.TryGetComponent(out IGrabable grabable))
+				grabable.Drop();
 		}
 
 		private Socket GetSocket(SocketData socketData)

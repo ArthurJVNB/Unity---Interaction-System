@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Project.InteractionSystem
 {
-	[CreateAssetMenu(fileName = "New SocketData", menuName = "Project/Interaction System/SocketData")]
+	[CreateAssetMenu(fileName = "New SocketData", menuName = "Project/Interaction System/Socket")]
 	public class SocketData : ScriptableObject
 	{
 		[SerializeField] private string _name;
