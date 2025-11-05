@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace Project.InteractionSystem
@@ -21,7 +19,7 @@ namespace Project.InteractionSystem
 		[field: SerializeField] public UnityEvent OnDrop { get; private set; }
 
 		public SocketData SocketData => _socketData;
-		public bool IsInteractionEnabled => _canInteract;
+		public bool IsInteractionEnabled { get => _canInteract; set => _canInteract = value; }
 
 		public bool CanInteract(GameObject whoWantsToInteract)
 		{

@@ -11,6 +11,7 @@ namespace Project.InteractionSystem
 		[Tooltip("Where to put the key when received.")]
 		[SerializeField] private Transform _keyPosition;
 		[SerializeField] private bool _canInteract = true;
+		[SerializeField] private bool _canChangeKeyInteraction = true;
 		[SerializeField, Min(0)] private float _interactionDistance = 1;
 		[SerializeField, Space] private GameObject _currentKey;
 
@@ -20,7 +21,19 @@ namespace Project.InteractionSystem
 		[field: SerializeField] public UnityEvent<GameObject> OnRemoveKey { get; private set; }
 
 
-		public bool IsInteractionEnabled { get => _canInteract; set => _canInteract = value; }
+		public bool IsInteractionEnabled 
+		{
+			get => _canInteract; 
+			set
+			{
+				_canInteract = value;
+				if (_canChangeKeyInteraction && _currentKey)
+				{
+					if (_currentKey.TryGetComponent(out IInteractable interactableKey))
+						interactableKey.IsInteractionEnabled = value;
+				}
+			}
+		}
 
 		public KeyData Key => _key;
 		public GameObject KeyGameObject => gameObject;
@@ -44,11 +57,6 @@ namespace Project.InteractionSystem
 		{
 			if (!_keyPosition)
 				_keyPosition = transform;
-		}
-
-		private void OnCollisionEnter(Collision collision)
-		{
-			Debug.Log($"<color=white>Collided with {collision.gameObject.name}</color>", collision.gameObject);
 		}
 
 		public bool CanInteract(GameObject whoWantsToInteract)

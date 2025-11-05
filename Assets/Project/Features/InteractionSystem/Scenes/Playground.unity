@@ -1868,6 +1868,7 @@ MonoBehaviour:
   _key: {fileID: 11400000, guid: c6481fe5e6c81e24f821e141be3d85bf, type: 2}
   _keyPosition: {fileID: 900679695}
   _canInteract: 1
+  _canChangeKeyInteraction: 1
   _interactionDistance: 2
   _currentKey: {fileID: 0}
   <OnInteract>k__BackingField:
@@ -4747,6 +4748,7 @@ MonoBehaviour:
   _key: {fileID: 11400000, guid: e1d4e76381b56094ca57a04addcee8a1, type: 2}
   _keyPosition: {fileID: 1980428443}
   _canInteract: 1
+  _canChangeKeyInteraction: 1
   _interactionDistance: 2
   _currentKey: {fileID: 0}
   <OnInteract>k__BackingField:
@@ -5545,6 +5547,7 @@ MonoBehaviour:
   - {fileID: 996026088}
   - {fileID: 415455530}
   _numberOfKeys: 2
+  _disableInteractionIfReachedNumberOfKeys: 1
   <OnReachedNumberOfKeys>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -5559,30 +5562,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 996026088}
-        m_TargetAssemblyTypeName: Project.InteractionSystem.KeyReceiver, Project.InteractionSystem
-        m_MethodName: set_IsInteractionEnabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 415455530}
-        m_TargetAssemblyTypeName: Project.InteractionSystem.KeyReceiver, Project.InteractionSystem
-        m_MethodName: set_IsInteractionEnabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
   <OnLostNumberOfKeys>k__BackingField:
     m_PersistentCalls:

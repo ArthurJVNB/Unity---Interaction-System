@@ -8,6 +8,7 @@ namespace Project.InteractionSystem
 	{
 		[SerializeField] private KeyReceiver[] _keyReceivers;
 		[SerializeField, Min(0)] private int _numberOfKeys = 2;
+		[SerializeField] private bool _disableInteractionIfReachedNumberOfKeys = true;
 		[field: Space]
 		[field: SerializeField] public UnityEvent OnReachedNumberOfKeys { get; private set; }
 		[field: SerializeField] public UnityEvent OnLostNumberOfKeys { get; private set; }
@@ -59,10 +60,24 @@ namespace Project.InteractionSystem
 			bool hasReached = _keyCount >= _numberOfKeys;
 			if (hasReached != _hasReached)
 			{
-				if (hasReached) OnReachedNumberOfKeys?.Invoke();
-				else OnLostNumberOfKeys?.Invoke();
+				if (hasReached)
+				{
+					if (_disableInteractionIfReachedNumberOfKeys)
+						SetKeyInteractions(false);
+					OnReachedNumberOfKeys?.Invoke();
+				}
+				else
+				{
+					OnLostNumberOfKeys?.Invoke();
+				}
 				_hasReached = hasReached;
 			}
+		}
+
+		private void SetKeyInteractions(bool interactable)
+		{
+			foreach (var keyReceiver in _keyReceivers)
+				keyReceiver.IsInteractionEnabled = interactable;
 		}
 	}
 }
