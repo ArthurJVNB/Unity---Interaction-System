@@ -99,7 +99,6 @@ namespace Project
 			if (!Physics.Raycast(ray, out _hit, float.MaxValue, _layerMask)) return;
 			if (_hit.transform.TryGetComponent(out IInteractable _)) return;
 
-			Debug.Log("Moving to position");
 			_agent.SetDestination(_hit.point);
 		}
 

@@ -21,9 +21,9 @@ namespace Project.InteractionSystem
 		[field: SerializeField] public UnityEvent<GameObject> OnRemoveKey { get; private set; }
 
 
-		public bool IsInteractionEnabled 
+		public bool IsInteractionEnabled
 		{
-			get => _canInteract; 
+			get => _canInteract;
 			set
 			{
 				_canInteract = value;
@@ -122,63 +122,64 @@ namespace Project.InteractionSystem
 			return false;
 		}
 
+		private bool PlaceOrRemoveKeyFromPlaceable(IPlaceableKey placeable)
+		{
+			throw new NotImplementedException();
+		}
+
 		private bool PlaceOrRemoveKeyFromSocketManager(SocketManager socketManager)
 		{
 			var objs = socketManager.AssignedGameObjects;
 			if (objs == null || objs.Length == 0)
 				return false;
 
-			IPlaceableKey placeable = null;
+			IPlaceableKey placeableKey = null;
 			foreach (var obj in objs)
 			{
-				if (!obj.TryGetComponent(out placeable)) continue;
-				if (placeable.Key != _key) continue;
+				if (!obj.TryGetComponent(out placeableKey)) continue;
+				if (placeableKey.Key != _key) continue;
 				break;
 			}
 
-			if (placeable == null)
+			if (placeableKey == null)
 				return false;
 
 			bool success = false;
-			if (_currentKey == placeable.KeyGameObject)
+			if (_currentKey == placeableKey.KeyGameObject)
 			{
-				success = RemoveKey(placeable.KeyGameObject);
+				success = RemoveKey(placeableKey.KeyGameObject);
 				if (success)
 				{
-					var socket = placeable.KeyGameObject.GetComponent<ISocket>();
-					socketManager.AssignObject(placeable.KeyGameObject, socket.SocketData);
+					var socket = placeableKey.KeyGameObject.GetComponent<ISocket>();
+					socketManager.AssignObject(placeableKey.KeyGameObject, socket.SocketData);
 				}
 			}
 			else
 			{
-				bool canPlace = CanPlaceKey(placeable.KeyGameObject);
-				if (canPlace)
+				if (CanPlaceKey(placeableKey.KeyGameObject))
 				{
-					socketManager.DropObject(placeable.KeyGameObject);
-					success = PlaceKey(placeable.KeyGameObject);
+					socketManager.DropObject(placeableKey.KeyGameObject);
+					success = PlaceKey(placeableKey.KeyGameObject);
 				}
 			}
 
 			return success;
 		}
 
-		private bool PlaceOrRemoveKeyFromPlaceable(IPlaceableKey placeable)
-		{
-			throw new NotImplementedException();
-		}
-
 		public bool CanPlaceKey(GameObject gameObject)
 		{
-			return IsInteractionEnabled && gameObject.TryGetComponent(out IPlaceableKey placeable);
+			return IsInteractionEnabled
+				&& gameObject.TryGetComponent(out IPlaceableKey placeable)
+				&& placeable.Key == Key;
 		}
 
-		public bool PlaceKey(GameObject gameObject)
+		public bool PlaceKey(GameObject key)
 		{
-			if (!CanPlaceKey(gameObject)) return false;
+			if (!CanPlaceKey(key)) return false;
 
-			if (!gameObject.TryGetComponent(out IPlaceableKey placeable))
+			if (!key.TryGetComponent(out IPlaceableKey placeable))
 			{
-				Debug.LogWarning($"'{gameObject}' is not an {typeof(IPlaceableKey)}", gameObject);
+				Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKey)}", key);
 				return false;
 			}
 
@@ -194,11 +195,11 @@ namespace Project.InteractionSystem
 			return true;
 		}
 
-		public bool RemoveKey(GameObject gameObject)
+		public bool RemoveKey(GameObject key)
 		{
-			if (!gameObject.TryGetComponent(out IPlaceableKey placeable))
+			if (!key.TryGetComponent(out IPlaceableKey placeable))
 			{
-				Debug.LogWarning($"'{gameObject}' is not an {typeof(IPlaceableKey)}", gameObject);
+				Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKey)}", key);
 				return false;
 			}
 

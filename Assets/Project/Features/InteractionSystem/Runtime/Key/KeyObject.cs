@@ -20,28 +20,29 @@ namespace Project.InteractionSystem
 			return true;
 		}
 
-		public bool PlaceKey(GameObject gameObject)
+		public bool PlaceKey(GameObject owner)
 		{
-			if (!gameObject.TryGetComponent(out IPlaceableKey placeable))
+			if (!owner.TryGetComponent(out IPlaceableKey placeable))
 			{
-				Debug.LogWarning($"'{gameObject}' is not an {typeof(IPlaceableKey)}", gameObject);
+				Debug.LogWarning($"'{owner}' is not an {typeof(IPlaceableKey)}", owner);
 				return false;
 			}
 
-			_owner = gameObject;
-			OnPlaceKey?.Invoke(gameObject);
+			_owner = owner;
+			OnPlaceKey?.Invoke(owner);
 			return true;
 		}
 
-		public bool RemoveKey(GameObject gameObject)
+		public bool RemoveKey(GameObject owner)
 		{
-			if (!gameObject.TryGetComponent(out IPlaceableKey placeable))
+			if (!owner.TryGetComponent(out IPlaceableKey placeable))
 			{
-				Debug.LogWarning($"'{gameObject}' is not an {typeof(IPlaceableKey)}", gameObject);
+				Debug.LogWarning($"'{owner}' is not an {typeof(IPlaceableKey)}", owner);
 				return false;
 			}
 
 			_owner = null;
+			OnRemoveKey?.Invoke(owner);
 			return true;
 		}
 

@@ -11,9 +11,9 @@ namespace Project.InteractionSystem
 		public UnityEvent<GameObject> OnPlaceKey { get; }
 		public UnityEvent<GameObject> OnRemoveKey { get; }
 
-		public bool PlaceKey(GameObject gameObject);
-		public bool RemoveKey(GameObject gameObject);
+		public bool PlaceKey(GameObject keyOrReceiver);
+		public bool RemoveKey(GameObject keyOrReceiver);
 
-		public bool CanPlaceKey(GameObject gameObject);
+		public bool CanPlaceKey(GameObject keyOrReceiver);
 	}
 }

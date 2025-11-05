@@ -43,6 +43,19 @@ namespace Project.InteractionSystem
 				_worldSocket = transform;
 		}
 
+		public bool AssignObject(GameObject gameObject, SocketData[] socketDatas)
+		{
+			if (socketDatas == null || socketDatas.Length == 0)
+				return AssignObject(gameObject);
+
+			foreach (var socketData in socketDatas)
+			{
+				if (AssignObject(gameObject, socketData))
+					return true;
+			}
+			return false;
+		}
+
 		/// <summary>
 		/// Assign a GameObject to a Socket (optional).
 		/// </summary>
