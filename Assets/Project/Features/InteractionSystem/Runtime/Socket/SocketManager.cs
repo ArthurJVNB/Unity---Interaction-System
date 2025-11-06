@@ -76,10 +76,11 @@ namespace Project.InteractionSystem
 
 			if (!couldAssign)
 			{
-				Debug.Log($"Socket '{(socket ? socket.Data.Name : "World")}' was already full");
+				Debug.Log($"'{gameObject.name}' cannot be on socket '{(socket ? socket.SocketData.Name : "World")}'. It is already full");
 				return false;
 			}
 
+			Debug.Log($"'{gameObject.name}' was assigned to socket '{(socket ? socket.SocketData.Name : "World")}'");
 			_assignedGameObjects.Add(gameObject, socket);
 			return true;
 		}
@@ -111,7 +112,7 @@ namespace Project.InteractionSystem
 			if (_sockets == null || _sockets.Length == 0)
 				return null;
 
-			return _sockets.FirstOrDefault(v => v.Data == socketData);
+			return _sockets.FirstOrDefault(v => v.SocketData == socketData);
 		}
 
 		private bool AssignObjectWorld(GameObject gameObject)

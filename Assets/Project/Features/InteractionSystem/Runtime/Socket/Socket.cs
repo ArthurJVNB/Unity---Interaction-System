@@ -1,18 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Project.InteractionSystem
 {
-	public class Socket : MonoBehaviour
+	public class Socket : MonoBehaviour, ISocket
 	{
 		[SerializeField] private SocketData _socketData;
 		[SerializeField] private Transform _root;
 		[Min(0)]
 		[SerializeField] private int _objectLimit = 1;
 
+		[field: Space]
+		[field: SerializeField] public UnityEvent<GameObject> OnAssign { get; private set; }
+		[field: SerializeField] public UnityEvent<GameObject> OnDrop { get; private set; }
+
 		private HashSet<GameObject> _assignedObjects;
 
-		public SocketData Data => _socketData;
+		public SocketData SocketData => _socketData;
 
 		private Transform Root
 		{
@@ -59,6 +64,5 @@ namespace Project.InteractionSystem
 			if (_assignedObjects.Remove(gameObject))
 				gameObject.transform.SetParent(null, true);
 		}
-
 	}
 }
