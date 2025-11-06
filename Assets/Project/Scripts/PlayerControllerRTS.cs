@@ -84,8 +84,12 @@ namespace Project
 				return;
 			}
 
-			bool success = interactable.Interact(gameObject);
-			if (success) _onInteractionSuccess?.Invoke();
+			CallbacksInteraction(interactable.Interact(gameObject));
+		}
+
+		private void CallbacksInteraction(bool couldInteract)
+		{
+			if (couldInteract) _onInteractionSuccess?.Invoke();
 			else _onInteractionFailure?.Invoke();
 		}
 
@@ -107,7 +111,7 @@ namespace Project
 			while (!interactable.CanInteract(gameObject))
 				yield return null;
 
-			interactable.Interact(gameObject);
+			CallbacksInteraction(interactable.Interact(gameObject));
 			_interactWhenPossibleRoutine = null;
 			_agent.ResetPath();
 		}
