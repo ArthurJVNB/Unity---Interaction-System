@@ -12,6 +12,7 @@ namespace Project.InteractionSystem
 		[SerializeField] private Transform _keyPosition;
 		[SerializeField] private bool _canInteract = true;
 		[SerializeField] private bool _canChangeKeyInteraction = true;
+		[SerializeField] private bool _disableInteractionWhenPlaced = true;
 		[SerializeField, Min(0)] private float _interactionDistance = 1;
 		[SerializeField, Space] private GameObject _currentKey;
 
@@ -183,7 +184,7 @@ namespace Project.InteractionSystem
 				return false;
 			}
 
-			Debug.Log($"Placing key '{placeable.Key}'");
+			Debug.Log($"Placing key '{placeable.Key.Name}' ('{key.name}')");
 			placeable.PlaceKey(this.gameObject);
 			_currentKey = placeable.KeyGameObject;
 			placeable.KeyGameObject.transform.SetParent(KeyPosition, true);
@@ -191,6 +192,9 @@ namespace Project.InteractionSystem
 			placeable.KeyGameObject.transform.localRotation = Quaternion.identity;
 
 			OnPlaceKey?.Invoke(placeable.KeyGameObject);
+
+			if (_disableInteractionWhenPlaced)
+				IsInteractionEnabled = false;
 
 			return true;
 		}
@@ -203,7 +207,9 @@ namespace Project.InteractionSystem
 				return false;
 			}
 
-			Debug.Log($"Removing key '{placeable.Key}'");
+			Debug.Log($"Removing key '{placeable.Key.Name}' ('{key.name}')");
+			if (placeable.KeyGameObject.transform.parent == KeyPosition)
+				placeable.KeyGameObject.transform.SetParent(null, true);
 			placeable.RemoveKey(this.gameObject);
 			_currentKey = null;
 
