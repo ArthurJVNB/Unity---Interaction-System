@@ -43,7 +43,7 @@ namespace Project.InteractionSystem
 				return false;
 			}
 
-			Debug.Log($"interact '{name}'");
+			Debug.Log($"'{name}' interact");
 			OnInteract?.Invoke();
 			return GrabOrDrop(whoIsInteracting);
 		}
@@ -72,18 +72,19 @@ namespace Project.InteractionSystem
 
 		public bool Grab(GameObject whoIsGrabbing)
 		{
-			Debug.Log($"Grab '{name}'");
+			Debug.Log($"'{name}' grab");
 
 			bool couldGrab = false;
 			if (whoIsGrabbing.TryGetComponent(out SocketManager socketManager))
 			{
-				foreach (var socketData in _socketDatas)
-				{
-					Debug.Log($"-- trying socket {(socketData ? $"'{socketData.Name}'" : "none")}");
-					couldGrab = socketManager.AssignObject(gameObject, socketData);
-					Debug.Log($"-- Could put '{name}' in socket {(socketData ? $"'{socketData.Name}'" : "none")}? {couldGrab}");
-					if (couldGrab) break;
-				}
+				couldGrab = socketManager.AssignObject(gameObject, _socketDatas);
+				//foreach (var socketData in _socketDatas)
+				//{
+				//	Debug.Log($"-- trying socket {(socketData ? $"'{socketData.Name}'" : "none")}");
+				//	couldGrab = socketManager.AssignObject(gameObject, socketData);
+				//	Debug.Log($"-- Could put '{name}' in socket {(socketData ? $"'{socketData.Name}'" : "none")}? {couldGrab}");
+				//	if (couldGrab) break;
+				//}
 			}
 			else
 			{
