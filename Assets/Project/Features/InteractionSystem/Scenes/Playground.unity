@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: {fileID: 11400000, guid: e1d4e76381b56094ca57a04addcee8a1, type: 2}
-  _owner: {fileID: 0}
+  _ownerEditor: {fileID: 0}
   <OnPlaceKey>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -880,7 +880,19 @@ MonoBehaviour:
         m_CallState: 2
   <OnRemoveKey>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 217066388}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &221474733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1878,8 +1890,9 @@ MonoBehaviour:
   _keyPosition: {fileID: 900679695}
   _canInteract: 1
   _canChangeKeyInteraction: 1
+  _disableInteractionWhenPlaced: 0
   _interactionDistance: 2
-  _currentKey: {fileID: 0}
+  _currentKeyEditor: {fileID: 0}
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -1899,6 +1912,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <OnPlaceKeyGameObject>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   <OnRemoveKey>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -1915,6 +1931,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <OnRemoveKeyGameObject>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 415455534}
         m_TargetAssemblyTypeName: Project.InteractionSystem.PushRigidbody, Project.InteractionSystem
         m_MethodName: PushOther
@@ -2013,7 +2032,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _force: {x: 0, y: 100, z: 0}
   _forceMode: 5
-  _autoDisableIsKinematic: 1
+  _autoDisableIsKinematic: 0
 --- !u!4 &431356572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6737443129744485833, guid: 64dce48905ffd9b4293e595fa6941544,
@@ -2442,6 +2461,12 @@ MonoBehaviour:
   _socketData: {fileID: 11400000, guid: a305898f27e72a547b4ca02a04b853d9, type: 2}
   _root: {fileID: 0}
   _objectLimit: 1
+  <OnAssign>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDrop>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &584436005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6668654437293982308, guid: 64dce48905ffd9b4293e595fa6941544,
@@ -3930,7 +3955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: {fileID: 11400000, guid: c6481fe5e6c81e24f821e141be3d85bf, type: 2}
-  _owner: {fileID: 0}
+  _ownerEditor: {fileID: 0}
   <OnPlaceKey>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -3948,7 +3973,19 @@ MonoBehaviour:
         m_CallState: 2
   <OnRemoveKey>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 874531296}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &874531291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4809,8 +4846,9 @@ MonoBehaviour:
   _keyPosition: {fileID: 1980428443}
   _canInteract: 1
   _canChangeKeyInteraction: 1
+  _disableInteractionWhenPlaced: 0
   _interactionDistance: 2
-  _currentKey: {fileID: 0}
+  _currentKeyEditor: {fileID: 0}
   <OnInteract>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -4830,6 +4868,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <OnPlaceKeyGameObject>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   <OnRemoveKey>k__BackingField:
     m_PersistentCalls:
       m_Calls:
@@ -4846,6 +4887,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <OnRemoveKeyGameObject>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 996026093}
         m_TargetAssemblyTypeName: Project.InteractionSystem.PushRigidbody, Project.InteractionSystem
         m_MethodName: PushOther
@@ -5040,7 +5084,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _force: {x: 0, y: 100, z: 0}
   _forceMode: 5
-  _autoDisableIsKinematic: 1
+  _autoDisableIsKinematic: 0
 --- !u!4 &1020902490 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2105937543855322119, guid: 64dce48905ffd9b4293e595fa6941544,
@@ -6382,6 +6426,12 @@ MonoBehaviour:
   _socketData: {fileID: 11400000, guid: a40a6b59076bd1c439b9a272685de867, type: 2}
   _root: {fileID: 0}
   _objectLimit: 1
+  <OnAssign>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDrop>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1298363808 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8,

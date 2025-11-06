@@ -29,6 +29,7 @@ namespace Project.InteractionSystem
 				otherPush._rigidbody = other.GetComponentInChildren<Rigidbody>();
 				otherPush._force = _force;
 				otherPush._forceMode = _forceMode;
+				otherPush._autoDisableIsKinematic = _autoDisableIsKinematic;
 			}
 			PushOther(otherPush);
 		}

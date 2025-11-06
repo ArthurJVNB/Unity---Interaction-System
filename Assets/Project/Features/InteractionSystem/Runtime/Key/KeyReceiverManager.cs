@@ -43,13 +43,13 @@ namespace Project.InteractionSystem
 			}
 		}
 
-		private void KeyReceiver_OnPlaceKey(GameObject key)
+		private void KeyReceiver_OnPlaceKey(IKey key)
 		{
 			_keyCount++;
 			HandleKeys();
 		}
 
-		private void KeyReceiver_OnRemoveKey(GameObject key)
+		private void KeyReceiver_OnRemoveKey(IKey key)
 		{
 			_keyCount--;
 			HandleKeys();
