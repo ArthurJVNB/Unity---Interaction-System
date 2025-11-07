@@ -9,7 +9,7 @@ namespace Project.InteractionSystem
 		[SerializeField] private GameObject _owner;
 		[SerializeField] private bool _canInteract = true;
 		[Min(0)]
-		[SerializeField] private float _interactionDistance = .5f;
+		[SerializeField] private float _interactionDistance = 1;
 		[Tooltip("If true, it can be picked by another object. This will force the previous owner to \"drop\" this object.")]
 		[SerializeField] private bool _canBeGrabbedEvenWithOwner;
 
@@ -23,6 +23,7 @@ namespace Project.InteractionSystem
 		public SocketData SocketData => _socketDatas?[0];
 		public bool IsInteractionEnabled { get => _canInteract; set => _canInteract = value; }
 
+		#region IInteractable
 		public bool CanInteract(GameObject whoWantsToInteract)
 		{
 			if (!IsInteractionEnabled) return false;
@@ -33,6 +34,12 @@ namespace Project.InteractionSystem
 		{
 			if (!IsInteractionEnabled) return null;
 			return transform.position;
+		}
+
+		public (Vector3?, Quaternion?) GetNearestInteractionPositionAndRotation(Transform reference)
+		{
+			if (!IsInteractionEnabled) return (null, null);
+			return (transform.position, null);
 		}
 
 		public bool Interact(GameObject whoIsInteracting)
@@ -47,45 +54,16 @@ namespace Project.InteractionSystem
 			OnInteract?.Invoke();
 			return GrabOrDrop(whoIsInteracting);
 		}
+		#endregion
 
-		private bool GrabOrDrop(GameObject whoIsInteracting)
-		{
-			if (!whoIsInteracting) return false;
-
-			if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsInteracting)
-				DropFromOwner();
-
-			bool shouldGrab = _owner != whoIsInteracting;
-			if (shouldGrab)
-				return Grab(whoIsInteracting);
-			else
-			{
-				Drop();
-				return true;
-			}
-		}
-
-		public void GrabEventCompatible(GameObject whoIsGrabbing)
-		{
-			Grab(whoIsGrabbing);
-		}
-
+		#region IGrabable
 		public bool Grab(GameObject whoIsGrabbing)
 		{
 			Debug.Log($"'{name}' grab");
 
-			bool couldGrab = false;
+			bool couldGrab;
 			if (whoIsGrabbing.TryGetComponent(out SocketManager socketManager))
-			{
 				couldGrab = socketManager.AssignObject(gameObject, _socketDatas);
-				//foreach (var socketData in _socketDatas)
-				//{
-				//	Debug.Log($"-- trying socket {(socketData ? $"'{socketData.Name}'" : "none")}");
-				//	couldGrab = socketManager.AssignObject(gameObject, socketData);
-				//	Debug.Log($"-- Could put '{name}' in socket {(socketData ? $"'{socketData.Name}'" : "none")}? {couldGrab}");
-				//	if (couldGrab) break;
-				//}
-			}
 			else
 			{
 				transform.SetParent(whoIsGrabbing.transform, true);
@@ -94,7 +72,7 @@ namespace Project.InteractionSystem
 
 			if (!couldGrab)
 			{
-				Debug.Log($"Could not grab '{name}'");
+				Debug.Log($"'{name}' could not be grabbed'");
 				return false;
 			}
 
@@ -118,6 +96,29 @@ namespace Project.InteractionSystem
 			_owner = null;
 			OnDrop?.Invoke();
 		}
+		#endregion
+
+		public void GrabEventCompatible(GameObject whoIsGrabbing)
+		{
+			Grab(whoIsGrabbing);
+		}
+
+		private bool GrabOrDrop(GameObject whoIsInteracting)
+		{
+			if (!whoIsInteracting) return false;
+
+			if (_canBeGrabbedEvenWithOwner && _owner && _owner != whoIsInteracting)
+				DropFromOwner();
+
+			bool shouldGrab = _owner != whoIsInteracting;
+			if (shouldGrab)
+				return Grab(whoIsInteracting);
+			else
+			{
+				Drop();
+				return true;
+			}
+		}
 
 		private void DropFromOwner()
 		{
@@ -129,7 +130,6 @@ namespace Project.InteractionSystem
 			}
 			transform.SetParent(null, true);
 		}
-
 	}
 
 	#region Custom Editor (Backup)

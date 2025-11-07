@@ -24,12 +24,6 @@ namespace Project.InteractionSystem
 
 		public bool PlaceKey(IKeyReceiver keyReceiver)
 		{
-			//if (!keyReceiver.TryGetComponent(out IPlaceableKeyObsolete placeable))
-			//{
-			//	Debug.LogWarning($"'{keyReceiver}' is not an {typeof(IPlaceableKeyObsolete)}", keyReceiver);
-			//	return false;
-			//}
-
 			if (!CanPlace(keyReceiver))
 				return false;
 
@@ -41,12 +35,6 @@ namespace Project.InteractionSystem
 
 		public bool RemoveKey(IKeyReceiver keyReceiver)
 		{
-			//if (!keyReceiver.TryGetComponent(out IPlaceableKeyObsolete placeable))
-			//{
-			//	Debug.LogWarning($"'{keyReceiver}' is not an {typeof(IPlaceableKeyObsolete)}", keyReceiver);
-			//	return false;
-			//}
-
 			if (_owner == null)
 				return false;
 
@@ -57,11 +45,6 @@ namespace Project.InteractionSystem
 
 		public void RemoveOwner()
 		{
-			//if (!_ownerEditor) return;
-			//_ownerEditor.GetComponent<IPlaceableKeyObsolete>().RemoveKey(gameObject);
-			//OnRemoveKeyReceiver?.Invoke(_owner);
-			//_ownerEditor = null;
-
 			if (_owner == null) return;
 			_owner.RemoveKey(this);
 			_owner = null;

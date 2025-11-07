@@ -63,6 +63,7 @@ namespace Project.InteractionSystem
 				_keyPosition = transform;
 		}
 
+		#region IInteractable methods
 		public bool CanInteract(GameObject whoWantsToInteract)
 		{
 			return IsInteractionEnabled
@@ -75,6 +76,12 @@ namespace Project.InteractionSystem
 			return transform.position;
 		}
 
+		public (Vector3? position, Quaternion? rotation) GetNearestInteractionPositionAndRotation(Transform reference)
+		{
+			if (!IsInteractionEnabled) return (null, null);
+			return (transform.position, transform.rotation);
+		}
+
 		public bool Interact(GameObject whoIsInteracting)
 		{
 			if (_currentKey == null)
@@ -82,6 +89,67 @@ namespace Project.InteractionSystem
 
 			return RemoveKey(_currentKey);
 		}
+		#endregion
+
+		#region IKeyReceiver methods
+		public bool PlaceKey(IKey key)
+		{
+			if (!CanPlaceKey(key)) return false;
+
+			//if (!key.TryGetComponent(out IPlaceableKeyObsolete placeable))
+			//{
+			//	Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKeyObsolete)}", key);
+			//	return false;
+			//}
+
+			Debug.Log($"Placing key '{key.Key.Name}' ('{key.KeyGameObject.name}')");
+			key.PlaceKey(this);
+
+			_currentKey = key;
+			_currentKeyEditor = key.KeyGameObject;
+
+			key.KeyGameObject.transform.SetParent(KeyPosition, true);
+			key.KeyGameObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+			OnPlaceKey?.Invoke(key);
+			OnPlaceKeyGameObject?.Invoke(key.KeyGameObject);
+
+			if (_disableInteractionWhenPlaced)
+				IsInteractionEnabled = false;
+
+			return true;
+		}
+
+		public bool RemoveKey(IKey key)
+		{
+			//if (!key.TryGetComponent(out IPlaceableKeyObsolete placeable))
+			//{
+			//	Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKeyObsolete)}", key);
+			//	return false;
+			//}
+
+			if (_currentKey == null || _currentKey != key)
+				return false;
+
+			Debug.Log($"Removing key '{key.Key.Name}' ('{key.KeyGameObject.name}')");
+			if (key.KeyGameObject.transform.parent == KeyPosition)
+				key.KeyGameObject.transform.SetParent(null, true);
+			key.RemoveKey(this);
+
+			_currentKey = null;
+			_currentKeyEditor = null;
+
+			OnRemoveKey?.Invoke(key);
+			OnRemoveKeyGameObject?.Invoke(key.KeyGameObject);
+
+			return true;
+		}
+
+		public bool CanPlaceKey(IKey key)
+		{
+			return IsInteractionEnabled && key.Key == Key;
+		}
+		#endregion
 
 		private bool PlaceOrRemoveKey(GameObject whoIsInteracting)
 		{
@@ -169,64 +237,5 @@ namespace Project.InteractionSystem
 
 			return success;
 		}
-
-		public bool PlaceKey(IKey key)
-		{
-			if (!CanPlaceKey(key)) return false;
-
-			//if (!key.TryGetComponent(out IPlaceableKeyObsolete placeable))
-			//{
-			//	Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKeyObsolete)}", key);
-			//	return false;
-			//}
-
-			Debug.Log($"Placing key '{key.Key.Name}' ('{key.KeyGameObject.name}')");
-			key.PlaceKey(this);
-
-			_currentKey = key;
-			_currentKeyEditor = key.KeyGameObject;
-			
-			key.KeyGameObject.transform.SetParent(KeyPosition, true);
-			key.KeyGameObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-			
-			OnPlaceKey?.Invoke(key);
-			OnPlaceKeyGameObject?.Invoke(key.KeyGameObject);
-
-			if (_disableInteractionWhenPlaced)
-				IsInteractionEnabled = false;
-
-			return true;
-		}
-
-		public bool RemoveKey(IKey key)
-		{
-			//if (!key.TryGetComponent(out IPlaceableKeyObsolete placeable))
-			//{
-			//	Debug.LogWarning($"'{key}' is not an {typeof(IPlaceableKeyObsolete)}", key);
-			//	return false;
-			//}
-
-			if (_currentKey == null || _currentKey != key)
-				return false;
-
-			Debug.Log($"Removing key '{key.Key.Name}' ('{key.KeyGameObject.name}')");
-			if (key.KeyGameObject.transform.parent == KeyPosition)
-				key.KeyGameObject.transform.SetParent(null, true);
-			key.RemoveKey(this);
-
-			_currentKey = null;
-			_currentKeyEditor = null;
-
-			OnRemoveKey?.Invoke(key);
-			OnRemoveKeyGameObject?.Invoke(key.KeyGameObject);
-
-			return true;
-		}
-
-		public bool CanPlaceKey(IKey key)
-		{
-			return IsInteractionEnabled && key.Key == Key;
-		}
-
 	}
 }

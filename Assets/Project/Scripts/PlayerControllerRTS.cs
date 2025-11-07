@@ -15,6 +15,7 @@ namespace Project
 		[SerializeField] private LayerMask _layerMask = 1 << 0; // Default
 		[SerializeField] private InputActionReference _inputMove;
 		[SerializeField] private InputActionReference _inputInteract;
+		[SerializeField] private Transform _interactionPosition;
 		[Space]
 		[SerializeField] private UnityEvent _onInteractionSuccess;
 		[SerializeField] private UnityEvent _onInteractionFailure;
@@ -22,10 +23,23 @@ namespace Project
 		private RaycastHit _hit;
 		private Coroutine _interactWhenPossibleRoutine;
 
+		private Transform InteractionPosition
+		{
+			get
+			{
+				if (!_interactionPosition)
+					_interactionPosition = transform;
+				return _interactionPosition;
+			}
+		}
+
 		private void Awake()
 		{
 			if (!_camera)
 				_camera = Camera.main;
+
+			if (!_interactionPosition)
+				_interactionPosition = transform;
 		}
 
 		private void OnEnable()
@@ -60,7 +74,10 @@ namespace Project
 		private void Interact(Ray ray)
 		{
 			if (_interactWhenPossibleRoutine != null)
+			{
 				StopCoroutine(_interactWhenPossibleRoutine);
+				_interactWhenPossibleRoutine = null;
+			}
 
 			if (!Physics.Raycast(ray, out _hit, float.MaxValue, _layerMask)) return;
 
@@ -109,11 +126,48 @@ namespace Project
 		private IEnumerator InteractWhenPossibleRoutine(IInteractable interactable)
 		{
 			while (!interactable.CanInteract(gameObject))
-				yield return null;
+			{
+				// DEBUG
+				(Vector3? position, Quaternion? rotation) = interactable.GetNearestInteractionPositionAndRotation(transform);
 
-			CallbacksInteraction(interactable.Interact(gameObject));
-			_interactWhenPossibleRoutine = null;
+				Transform reference = transform;
+				Vector3 start = reference.position;
+				Vector3 end = position ?? reference.position;
+
+				Debug.DrawLine(start, end, Color.yellow, .1f);
+				if (rotation.HasValue)
+				{
+					Debug.DrawLine(
+						start,
+						rotation.Value * Vector3.forward + start,
+						Color.blue, .1f);
+					rot = rotation.Value.eulerAngles;
+				}
+				// -----
+
+				float distance = Vector3.Distance(reference.position, position.Value);
+				if (distance <= 1 && rotation.HasValue)
+				{
+					_agent.updateRotation = false;
+					transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation.Value, _agent.angularSpeed * Time.deltaTime);
+				}
+
+				yield return null;
+			}
+
 			_agent.ResetPath();
+			_agent.updateRotation = true;
+			_interactWhenPossibleRoutine = null;
+			CallbacksInteraction(interactable.Interact(gameObject));
+		}
+
+		public Vector3 dir;
+		public Vector3 rot;
+		private void OnDrawGizmos()
+		{
+			Quaternion rot = Quaternion.Euler(this.rot);
+			Gizmos.DrawLine(transform.position, transform.position + transform.forward);
+			Gizmos.DrawLine(transform.position, transform.position + rot * dir);
 		}
 	}
 }
