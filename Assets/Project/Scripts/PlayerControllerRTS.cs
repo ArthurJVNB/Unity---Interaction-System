@@ -85,9 +85,10 @@ namespace Project
 
 			_agent.ResetPath(); // Stop any previous movement
 
-			if (!interactable.CanInteract(gameObject))
+			bool canInteract = CanInteract(interactable, out Transform whoCanInteract);
+			if (!canInteract)
 			{
-				Vector3? position = interactable.GetInteractionPosition(gameObject);
+				Vector3? position = interactable.GetInteractionPosition(InteractionPosition.position);
 				if (position.HasValue)
 				{
 					Debug.Log($"Moving to interaction position {position.Value}");
@@ -101,7 +102,7 @@ namespace Project
 				return;
 			}
 
-			CallbacksInteraction(interactable.Interact(gameObject));
+			CallbacksInteraction(interactable.Interact(gameObject, whoCanInteract.position, whoCanInteract.rotation));
 		}
 
 		private void CallbacksInteraction(bool couldInteract)
@@ -125,10 +126,11 @@ namespace Project
 
 		private IEnumerator InteractWhenPossibleRoutine(IInteractable interactable)
 		{
-			while (!interactable.CanInteract(gameObject))
+			Transform whoCanInteract;
+			while (!CanInteract(interactable, out whoCanInteract))
 			{
 				// DEBUG
-				(Vector3? position, Quaternion? rotation) = interactable.GetNearestInteractionPositionAndRotation(transform);
+				(Vector3? position, Quaternion? rotation) = interactable.GetNearestInteractionPositionAndRotation(transform.position, transform.rotation);
 
 				Transform reference = transform;
 				Vector3 start = reference.position;
@@ -158,7 +160,25 @@ namespace Project
 			_agent.ResetPath();
 			_agent.updateRotation = true;
 			_interactWhenPossibleRoutine = null;
-			CallbacksInteraction(interactable.Interact(gameObject));
+			CallbacksInteraction(interactable.Interact(gameObject, whoCanInteract.position, whoCanInteract.rotation));
+		}
+
+		private bool CanInteract(IInteractable interactable, out Transform whoCanInteract)
+		{
+			if (interactable.CanInteract(gameObject, transform.position, transform.rotation))
+			{
+				whoCanInteract = transform;
+				return true;
+			}
+
+			if (interactable.CanInteract(gameObject, InteractionPosition.position, InteractionPosition.rotation))
+			{
+				whoCanInteract = InteractionPosition;
+				return true;
+			}
+
+			whoCanInteract = null;
+			return false;
 		}
 
 		public Vector3 dir;

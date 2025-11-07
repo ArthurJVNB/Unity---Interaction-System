@@ -10152,7 +10152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52fdd8b1bf015243b5ae7e8f37771ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionPoint: {fileID: 1340337347}
+  _interactionPoint: {fileID: 1340337348}
   _canInteract: 1
 --- !u!4 &1907683241 stripped
 Transform:

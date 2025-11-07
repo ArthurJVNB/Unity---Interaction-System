@@ -24,27 +24,27 @@ namespace Project.InteractionSystem
 		public bool IsInteractionEnabled { get => _canInteract; set => _canInteract = value; }
 
 		#region IInteractable
-		public bool CanInteract(GameObject whoWantsToInteract)
+		public bool CanInteract(GameObject whoWantsToInteract, Vector3 position, Quaternion rotation)
 		{
 			if (!IsInteractionEnabled) return false;
-			return Vector3.Distance(whoWantsToInteract.transform.position, transform.position) <= _interactionDistance;
+			return Vector3.Distance(position, transform.position) <= _interactionDistance;
 		}
 
-		public Vector3? GetInteractionPosition(GameObject whoWantsToInteract)
+		public Vector3? GetInteractionPosition(Vector3 position)
 		{
 			if (!IsInteractionEnabled) return null;
 			return transform.position;
 		}
 
-		public (Vector3?, Quaternion?) GetNearestInteractionPositionAndRotation(Transform reference)
+		public (Vector3?, Quaternion?) GetNearestInteractionPositionAndRotation(Vector3 position, Quaternion rotation)
 		{
 			if (!IsInteractionEnabled) return (null, null);
 			return (transform.position, null);
 		}
 
-		public bool Interact(GameObject whoIsInteracting)
+		public bool Interact(GameObject whoIsInteracting, Vector3 position, Quaternion rotation)
 		{
-			if (!CanInteract(whoIsInteracting))
+			if (!CanInteract(whoIsInteracting, position, rotation))
 			{
 				Debug.Log($"'{whoIsInteracting.name}' cannot interact '{name}'!", this);
 				return false;

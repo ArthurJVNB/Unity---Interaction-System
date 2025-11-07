@@ -17,28 +17,28 @@ namespace Project.InteractionSystem
 		}
 
 		#region IInteractable methods
-		public bool CanInteract(GameObject whoWantsToInteract)
+		public bool CanInteract(GameObject whoWantsToInteract, Vector3 position, Quaternion rotation)
 		{
 			return IsInteractionEnabled
-				&& _interactionPoint.CanInteract(whoWantsToInteract.transform.position, whoWantsToInteract.transform.rotation);
+				&& _interactionPoint.CanInteract(position, rotation);
 				//&& Vector3.Distance(GetNearestInteractionPositionAndRotation(whoWantsToInteract.transform).position.Value, whoWantsToInteract.transform.position) < 1;
 		}
 
-		public Vector3? GetInteractionPosition(GameObject whoWantsToInteract)
+		public Vector3? GetInteractionPosition(Vector3 position)
 		{
 			return transform.position;
 		}
 
-		public (Vector3? position, Quaternion? rotation) GetNearestInteractionPositionAndRotation(Transform reference)
+		public (Vector3? position, Quaternion? rotation) GetNearestInteractionPositionAndRotation(Vector3 position, Quaternion rotation)
 		{
 			if (!IsInteractionEnabled) return (null, null);
 			var posAndRot = _interactionPoint;
 			return (posAndRot.Position, posAndRot.Rotation);
 		}
 
-		public bool Interact(GameObject whoIsInteracting)
+		public bool Interact(GameObject whoIsInteracting, Vector3 position, Quaternion rotation)
 		{
-			if (!CanInteract(whoIsInteracting))
+			if (!CanInteract(whoIsInteracting, position, rotation))
 				return false;
 
 			Debug.Log($"'{name}' interact");
