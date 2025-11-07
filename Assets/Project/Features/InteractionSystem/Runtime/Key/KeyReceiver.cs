@@ -13,7 +13,8 @@ namespace Project.InteractionSystem
 		[SerializeField] private bool _canInteract = true;
 		[SerializeField] private bool _canChangeKeyInteraction = true;
 		[SerializeField] private bool _disableInteractionWhenPlaced = true;
-		[SerializeField, Min(0)] private float _interactionDistance = 1;
+		[SerializeField] private InteractionPoint[] _interactionPoints;
+
 		[SerializeField, Space] private GameObject _currentKeyEditor;
 
 		[field: Space]
@@ -67,19 +68,50 @@ namespace Project.InteractionSystem
 		public bool CanInteract(GameObject whoWantsToInteract, Vector3 position, Quaternion rotation)
 		{
 			return IsInteractionEnabled
-				&& Vector3.Distance(position, transform.position) <= _interactionDistance;
+				&& CanInteractAnyPoint(position, rotation);
+				//&& Vector3.Distance(position, transform.position) <= _interactionDistance;
+		}
+
+		private bool CanInteractAnyPoint(Vector3 position, Quaternion rotation)
+		{
+			foreach (var interactionPoint in _interactionPoints)
+			{
+				if (interactionPoint.CanInteract(position, rotation))
+					return true;
+			}
+			return false;
 		}
 
 		public Vector3? GetNearestInteractionPosition(Vector3 position)
 		{
 			if (!IsInteractionEnabled) return null;
-			return transform.position;
+			//return transform.position;
+
+			var nearest = GetNearestInteractionPoint(position);
+			return nearest ? nearest.Position : null;
+		}
+
+		private InteractionPoint GetNearestInteractionPoint(Vector3 position)
+		{
+			float leastDistance = float.MaxValue;
+			InteractionPoint result = null;
+			foreach (var interactionPoint in _interactionPoints)
+			{
+				float distance = Vector3.Distance(position, interactionPoint.Position);
+				if (distance < leastDistance)
+				{
+					leastDistance = distance;
+					result = interactionPoint;
+				}
+			}
+			return result;
 		}
 
 		public (Vector3? position, Quaternion? rotation) GetNearestInteractionPositionAndRotation(Vector3 position, Quaternion rotation)
 		{
 			if (!IsInteractionEnabled) return (null, null);
-			return (transform.position, transform.rotation);
+			var nearest = GetNearestInteractionPoint(position);
+			return (nearest.Position, nearest.Rotation);
 		}
 
 		public bool Interact(GameObject whoIsInteracting, Vector3 position, Quaternion rotation)
