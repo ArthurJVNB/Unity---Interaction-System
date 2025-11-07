@@ -88,7 +88,7 @@ namespace Project
 			bool canInteract = CanInteract(interactable, out Transform whoCanInteract);
 			if (!canInteract)
 			{
-				Vector3? position = interactable.GetInteractionPosition(InteractionPosition.position);
+				Vector3? position = interactable.GetNearestInteractionPosition(InteractionPosition.position);
 				if (position.HasValue)
 				{
 					Debug.Log($"Moving to interaction position {position.Value}");

@@ -31,9 +31,9 @@ namespace Project.InteractionSystem
 			set
 			{
 				_canInteract = value;
-				if (_canChangeKeyInteraction && _currentKeyEditor)
+				if (_canChangeKeyInteraction && _currentKey != null)
 				{
-					if (_currentKeyEditor.TryGetComponent(out IInteractable interactableKey))
+					if (_currentKey.KeyGameObject.TryGetComponent(out IInteractable interactableKey))
 						interactableKey.IsInteractionEnabled = value;
 				}
 			}
@@ -70,7 +70,7 @@ namespace Project.InteractionSystem
 				&& Vector3.Distance(position, transform.position) <= _interactionDistance;
 		}
 
-		public Vector3? GetInteractionPosition(Vector3 position)
+		public Vector3? GetNearestInteractionPosition(Vector3 position)
 		{
 			if (!IsInteractionEnabled) return null;
 			return transform.position;

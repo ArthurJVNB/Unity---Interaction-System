@@ -24,7 +24,7 @@ namespace Project.InteractionSystem
 				//&& Vector3.Distance(GetNearestInteractionPositionAndRotation(whoWantsToInteract.transform).position.Value, whoWantsToInteract.transform.position) < 1;
 		}
 
-		public Vector3? GetInteractionPosition(Vector3 position)
+		public Vector3? GetNearestInteractionPosition(Vector3 position)
 		{
 			return transform.position;
 		}

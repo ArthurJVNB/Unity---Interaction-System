@@ -30,7 +30,7 @@ namespace Project.InteractionSystem
 			return Vector3.Distance(position, transform.position) <= _interactionDistance;
 		}
 
-		public Vector3? GetInteractionPosition(Vector3 position)
+		public Vector3? GetNearestInteractionPosition(Vector3 position)
 		{
 			if (!IsInteractionEnabled) return null;
 			return transform.position;
